@@ -37,8 +37,8 @@ index:
 
 generation:
   translation_enabled: true
-  translation_temperature: 1.3
-  gloss_temperature: 0.8
+  translation_temperature: 1.0
+  gloss_temperature: 1.0
   max_definitions: 3
   max_lemmas: 5
 
