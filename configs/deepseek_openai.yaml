@@ -1,0 +1,56 @@
+mode: full
+input_csv: data/input_inspicio.csv
+output_jsonl: outputs/output_deepseek_openai.jsonl
+report_file: outputs/evaluation_deepseek_openai.txt
+resume: true
+default_pos: verb
+
+columns:
+  id: ID
+  language: language
+  token: TOKEN
+  lemma: LEMMA
+  sentence: SENTENCE
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+llm:
+  provider: deepseek
+  model: deepseek-v4-pro
+  api_key_env: DEEPSEEK_API_KEY
+
+embedder:
+  provider: openai
+  model: text-embedding-3-large
+  api_key_env: OPENAI_API_KEY
+  batch_size: 100
+  normalize: true
+
+index:
+  lexicon_id: oewn:2024
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings
+  collection_template: oewn_{pos_plural}
+  lemma_cache_template: ./lemma_index_{collection}.json
+  build_batch_size: 100
+  rate_limit_delay: 0.3
+
+generation:
+  translation_enabled: true
+  translation_temperature: 1.3
+  gloss_temperature: 0.8
+  max_definitions: 3
+  max_lemmas: 5
+
+retrieval:
+  top_k: 50
+  dense_top_n_per_definition: 100
+  definition_decay_weights: [1.0, 0.75, 0.5]
+  lemma_multiplier_gamma: 0.8
+  lemma_only_default_score: 0.65
+  normalize_final_scores: false
+  max_candidates_before_mmr: 500
+  enable_mmr: true
+  mmr_lambda: 0.8
+  enable_lexname_coverage: false
+  lexname_min_candidates: 1

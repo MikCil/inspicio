@@ -1,0 +1,18 @@
+[project]
+name = "inspicio"
+version = "0.1.0"
+description = "Word-Sense Disambiguation retrieval pipeline over Open English WordNet."
+requires-python = ">=3.10"
+dependencies = [
+  "chromadb",
+  "numpy",
+  "openai",
+  "PyYAML",
+  "wn",
+]
+
+[project.optional-dependencies]
+local = ["sentence-transformers", "transformers"]
+
+[tool.setuptools.packages.find]
+include = ["inspicio*"]

@@ -1,0 +1,33 @@
+mode: full
+input_csv: data/input_inspicio.csv
+output_jsonl: outputs/output_openrouter_openai.jsonl
+report_file: outputs/evaluation_openrouter_openai.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+llm:
+  provider: openrouter
+  model: moonshotai/kimi-k2.6
+  api_key_env: OPENROUTER_API_KEY
+
+embedder:
+  provider: openai
+  model: text-embedding-3-large
+  api_key_env: OPENAI_API_KEY
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings
+  collection_template: oewn_{pos_plural}
+
+generation:
+  translation_enabled: true
+
+retrieval:
+  top_k: 50
+  enable_mmr: true
+  enable_lexname_coverage: false

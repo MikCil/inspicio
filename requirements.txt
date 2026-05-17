@@ -1,0 +1,7 @@
+chromadb
+numpy
+openai
+PyYAML
+wn
+sentence-transformers
+transformers

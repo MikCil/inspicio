@@ -1,0 +1,30 @@
+mode: retrieval
+input_jsonl: outputs/output_deepseek_openai.jsonl
+output_jsonl: outputs/output_deepseek_cohere.jsonl
+report_file: outputs/evaluation_deepseek_cohere.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+embedder:
+  provider: cohere
+  base_url: https://api.cohere.ai/compatibility/v1
+  model: embed-v4.0
+  api_key_env: COHERE_API_KEY
+  normalize: true
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings_cohere
+  collection_template: oewn_{pos_plural}_cohere
+
+generation:
+  translation_enabled: false
+
+retrieval:
+  top_k: 50
+  enable_mmr: true
+  enable_lexname_coverage: false

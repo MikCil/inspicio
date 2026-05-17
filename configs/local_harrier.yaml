@@ -1,0 +1,36 @@
+mode: retrieval
+input_jsonl: outputs/output_deepseek_openai.jsonl
+output_jsonl: outputs/output_deepseek_harrier.jsonl
+report_file: outputs/evaluation_deepseek_harrier.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+embedder:
+  provider: local
+  model: microsoft/harrier-oss-v1-27b
+  trust_remote_code: true
+  device: cuda
+  batch_size: 16
+  normalize: true
+  auto_processor_text_only: true
+  model_kwargs:
+    dtype: auto
+  query_prompt_name: sts_query
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings_harrier
+  collection_template: oewn_{pos_plural}_harrier
+
+generation:
+  translation_enabled: false
+
+retrieval:
+  top_k: 50
+  max_candidates_before_mmr: 250
+  enable_mmr: true
+  enable_lexname_coverage: false

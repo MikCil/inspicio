@@ -1,0 +1,35 @@
+mode: retrieval
+input_jsonl: outputs/output_deepseek_openai.jsonl
+output_jsonl: outputs/output_deepseek_qwen_embedding.jsonl
+report_file: outputs/evaluation_deepseek_qwen_embedding.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+embedder:
+  provider: local
+  model: Qwen/Qwen3-Embedding-8B
+  trust_remote_code: true
+  device: cuda
+  batch_size: 64
+  normalize: true
+  tokenizer_kwargs:
+    padding_side: left
+  query_prompt: "Instruct: Given a dictionary definition, retrieve the WordNet synset that best matches its meaning\nQuery: "
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings_qwen
+  collection_template: oewn_{pos_plural}_qwen
+
+generation:
+  translation_enabled: false
+
+retrieval:
+  top_k: 50
+  max_candidates_before_mmr: 250
+  enable_mmr: true
+  enable_lexname_coverage: false

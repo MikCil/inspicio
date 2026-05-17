@@ -1,0 +1,31 @@
+mode: retrieval
+input_jsonl: outputs/output_deepseek_openai.jsonl
+output_jsonl: outputs/output_deepseek_jina.jsonl
+report_file: outputs/evaluation_deepseek_jina.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+embedder:
+  provider: local
+  model: jinaai/jina-embeddings-v5-text-small
+  trust_remote_code: true
+  batch_size: 64
+  normalize: true
+  task: text-matching
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings_jina
+  collection_template: oewn_{pos_plural}_jina
+
+generation:
+  translation_enabled: false
+
+retrieval:
+  top_k: 50
+  enable_mmr: true
+  enable_lexname_coverage: false

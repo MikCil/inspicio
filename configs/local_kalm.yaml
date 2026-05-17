@@ -1,0 +1,35 @@
+mode: retrieval
+input_jsonl: outputs/output_deepseek_openai.jsonl
+output_jsonl: outputs/output_deepseek_kalm.jsonl
+report_file: outputs/evaluation_deepseek_kalm.txt
+resume: true
+default_pos: verb
+
+columns:
+  pos: PoS
+  ground_truth: VERB SEMANTICS
+
+embedder:
+  provider: local
+  model: tencent/KaLM-Embedding-Gemma3-12B-2511
+  trust_remote_code: true
+  device: cuda
+  batch_size: 16
+  normalize: true
+  auto_processor_text_only: true
+  model_kwargs:
+    torch_dtype: auto
+
+index:
+  pos: all
+  chroma_path_template: ./oewn_{pos_name}_embeddings_kalm
+  collection_template: oewn_{pos_plural}_kalm
+
+generation:
+  translation_enabled: false
+
+retrieval:
+  top_k: 50
+  max_candidates_before_mmr: 500
+  enable_mmr: true
+  enable_lexname_coverage: false

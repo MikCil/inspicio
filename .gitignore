@@ -1,0 +1,7 @@
+outputs/*.jsonl
+outputs/*.txt
+oewn_*_embeddings*/
+lemma_index_*.json
+*.zip
+__pycache__/
+.pytest_cache/
