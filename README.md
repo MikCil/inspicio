@@ -1,6 +1,8 @@
 # Inspicio
 
-Inspicio is a configurable Word-Sense Disambiguation retrieval pipeline over Open English WordNet. It separates the expensive stages so you can generate LLM translations/glosses once, then rerun retrieval with different embedding indexes.
+Inspicio is a configurable, open-vocabulary Word-Sense Disambiguation retrieval pipeline for historical and low-resource languages. It retrieves a set of candidate synsets from the Open English WordNet for toekns in any language, based on their context.
+
+![Architecture of the \textsc{Inspicio} pipeline, showing the transition from zero-shot translation to dense and sparse OEWN synset retrieval.](static/diagram.svg)
 
 ## Inputs
 
@@ -74,7 +76,7 @@ Provider examples:
 
 - DeepSeek: `configs/deepseek_openai.yaml`
 - Mistral: `configs/mistral_openai.yaml`
-- OpenRouter for Kimi/Qwen/GLM-style runs: `configs/openrouter_openai.yaml`
+- OpenRouter for Kimi/Qwen/GLM: `configs/openrouter_openai.yaml`
 - Any OpenAI-compatible LLM endpoint with a custom base URL: `configs/custom_llm_openai_compatible.yaml`
 
 For a custom LLM provider, set:
@@ -115,7 +117,7 @@ Local embedding examples:
 - Harrier: `configs/local_harrier.yaml`
 - KaLM: `configs/local_kalm.yaml`
 
-These configs preserve the notebook-specific quirks:
+These configs preserve aome model-specific quirks:
 
 - Qwen uses tokenizer left padding and an instruction query prompt.
 - Harrier uses `model_kwargs.dtype: auto`, `query_prompt_name: sts_query`, and text-tokenizer loading.
@@ -145,5 +147,3 @@ Each output line keeps the original row and adds:
 - `EVALUATION`
 - `RETRIEVAL_META`
 - `RETRIEVED_SYNSETS`
-
-The format is intentionally close to the original research scripts so old outputs remain usable in retrieval-only mode.
